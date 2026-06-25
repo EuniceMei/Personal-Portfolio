@@ -1,0 +1,39 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]          # 推到 main 分支時觸發
+
+permissions:                  # 給予部署 Pages 所需的權限
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:                  # 同時間只跑一個部署，避免衝突
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4          # 1. 取得原始碼
+      - uses: actions/setup-node@v4        # 2. 安裝 Node.js
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci                        # 3. 安裝相依套件
+      - run: npm run build                 # 4. 建置，產生 dist/
+      - uses: actions/upload-pages-artifact@v3  # 5. 上傳 dist/
+        with:
+          path: dist
+
+  deploy:
+    needs: build                           # 等 build 完成才執行
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4      # 6. 正式發布到 Pages
+        id: deployment
