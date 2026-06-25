@@ -1,6 +1,6 @@
 import FranceImg from '@/assets/img/France.jpg';
 import FranceSpotImg from '@/assets/img/FranceSpot.jpg';
-import CarImg from '@/assets/img/Car.jpg';
+import CarImg from '@/assets/img/car.jpg';
 import iCultureImg from '@/assets/img/iCulture.png';
 
 export const projects = [
