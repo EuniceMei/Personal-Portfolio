@@ -19,7 +19,7 @@ export const projects = [
     description: '可選擇你喜歡的法國地點收藏。',
     button: ['CSS', 'HTML'],    
     liveUrl: 'https://example.com', 
-    githubUrl: 'https://github.com/EuniceMei/France-Collection'      
+    githubUrl: 'https://eunicemei.github.io/France-Collection/',    
   },
   { 
     id: 3, 
