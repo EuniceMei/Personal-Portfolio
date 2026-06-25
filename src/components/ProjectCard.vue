@@ -1,5 +1,5 @@
 <script setup>
-import defaultIMG from '@/assets/img/France.jpg';
+import defaultIMG from '@/assets/img/France.png';
 
 const props = defineProps({
   id: { type: Number, required: true },
