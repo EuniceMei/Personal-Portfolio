@@ -36,7 +36,7 @@ export const projects = [
     img: VipImg, 
     description: '輸入您的名字年齡，可出現個人會員小卡',
     button: ['JS', 'CSS', 'HTML'],  
-    liveUrl: 'https://example.com', 
-    githubUrl: 'https://github.com',  
+    liveUrl: 'https://eunicemei.github.io/Vip-Card/', 
+    githubUrl: 'https://github.com/EuniceMei/Vip-Card.git',  
   },
 ];
