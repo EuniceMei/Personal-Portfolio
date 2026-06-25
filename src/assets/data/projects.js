@@ -18,8 +18,8 @@ export const projects = [
     img: FranceSpotImg, 
     description: '可選擇你喜歡的法國地點收藏。',
     button: ['CSS', 'HTML'],    
-    liveUrl: 'https://example.com', 
-    githubUrl: 'https://eunicemei.github.io/France-Collection/',    
+    liveUrl: 'https://eunicemei.github.io/France-Collection/', 
+    githubUrl: 'https://github.com/EuniceMei/France-Collection.git',    
   },
   { 
     id: 3, 
@@ -27,8 +27,8 @@ export const projects = [
     img: CarImg, 
     description: '可選擇你要的產品與數量，最後計算總金額。',
    button: ['Vue.js', 'CSS', 'HTML'],      
-    liveUrl: 'https://example.com', 
-    githubUrl: 'https://github.com'             
+    liveUrl: 'https://eunicemei.github.io/Shopping-Cart/', 
+    githubUrl: 'https://github.com/EuniceMei/Shopping-Cart.git',             
   },
    { 
     id: 4, 
@@ -37,6 +37,6 @@ export const projects = [
     description: '法國旅遊可以選擇你想要去的地點',
     button: ['Vue.js', 'CSS', 'HTML'],  
     liveUrl: 'https://example.com', 
-    githubUrl: 'https://github.com'  
+    githubUrl: 'https://github.com',  
   },
 ];
