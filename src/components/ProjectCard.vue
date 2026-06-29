@@ -5,9 +5,10 @@ const props = defineProps({
   id: { type: Number, required: true },
   img: { type: String, default: defaultIMG },
   title: { type: String, default: '範例' },
+  category: { type: String, default: '' },
   liveUrl: { type: String, default: '' },
   githubUrl: { type: String, default: '' },
-
+  compactGraphic: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['view-detail']);
@@ -15,7 +16,7 @@ const clickBtn = () => emit('view-detail', props.id);
 </script>
 
 <template>
-  <div class="card" @click="clickBtn">
+  <div class="card" :class="{ graphic: props.category === 'graphic', compactGraphic: props.compactGraphic }" @click="clickBtn">
     <div class="img-wrap">
       <img :src="props.img" alt="作品圖" />
       <div class="overlay">
@@ -24,8 +25,6 @@ const clickBtn = () => emit('view-detail', props.id);
     </div>
 
     <div class="card-footer">
-      <span class="card-index">{{ String(props.id).padStart(2, '0') }}</span>
-      <!-- padStart是用來在字串前面補字元。 -->
       <span class="card-title">{{ props.title }}</span>
       <span class="card-arrow">→</span>
     </div>
@@ -44,7 +43,8 @@ const clickBtn = () => emit('view-detail', props.id);
 
 <style scoped>
 .card {
-  width: 400px;
+  width: 100%;
+  max-width: var(--card-width, 400px);
   cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.06);
   background: #111;
@@ -59,9 +59,26 @@ const clickBtn = () => emit('view-detail', props.id);
 .img-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 /3;
-  /* 寬 : 高 = 3 : 4 */
+  aspect-ratio: var(--img-aspect-ratio, 4 / 3);
   overflow: hidden;
+}
+
+/* 預設平面設計卡片維持原本小尺寸 */
+.card.graphic {
+  --card-width: 212px;
+}
+
+.card.graphic .img-wrap {
+  --img-aspect-ratio: 210 / 297;
+}
+
+/* 在「全部」分類時，平面設計卡片會使用網頁卡片尺寸 */
+.card.compactGraphic {
+  --card-width: 400px;
+}
+
+.card.compactGraphic .img-wrap {
+  --img-aspect-ratio: 4 / 3;
 }
 
 .img-wrap img {
@@ -109,15 +126,6 @@ const clickBtn = () => emit('view-detail', props.id);
   gap: 10px;
   padding: 12px 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.card-index {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1rem;
-  color: #F5C400;
-  opacity: 0.9;
-  letter-spacing: 0.1em;
-  flex-shrink: 0;
 }
 
 .card-title {

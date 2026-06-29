@@ -4,7 +4,7 @@ import { RouterLink } from 'vue-router';
 
 <template>
   <nav class="nav">
-    <div class="nav-logo">E. Creative Space</div>
+    <div class="nav-logo">程勝美 Portfolio</div>
     <div class="nav-links">
       <RouterLink to="/">首頁</RouterLink>
       <RouterLink to="/SkillView">技能</RouterLink>

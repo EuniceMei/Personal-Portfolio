@@ -1,17 +1,21 @@
 <script setup>
 import SkillCard from '@/components/SkillCard.vue';
+import responsiveImg from '@/assets/img/responsive.png';
 
 const skills = [
-  { title: 'HTML',       img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
-  { title: 'CSS',        img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' },
-  { title: 'JavaScript', img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
-  { title: 'Vue.js',     img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg' },
-  { title: 'Git',        img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg' },
-  { title: 'Figma',      img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg' },
-  { title: 'Illustrator',img: 'https://cdn-1.webcatalog.io/catalog/adobe-illustrator/adobe-illustrator-icon-filled-256.webp?v=1779064239607'
- },
-  { title: 'Photoshop',  img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-original.svg'
- },
+    { title: 'HTML', img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
+    { title: 'CSS', img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' },
+    { title: 'JavaScript', img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
+    { title: 'Vue.js', img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg' },
+    { title: 'RWD', img: responsiveImg },
+    { title: 'Git', img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg' },
+    { title: 'Figma', img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg' },
+    {
+        title: 'Illustrator', img: 'https://cdn-1.webcatalog.io/catalog/adobe-illustrator/adobe-illustrator-icon-filled-256.webp?v=1779064239607'
+    },
+    {
+        title: 'Photoshop', img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-original.svg'
+    },
 ]
 
 </script>
@@ -73,4 +77,3 @@ h1 {
     flex-wrap: wrap;
 }
 </style>
-

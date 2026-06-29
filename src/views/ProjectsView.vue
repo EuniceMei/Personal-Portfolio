@@ -1,10 +1,41 @@
 <script setup>
-import { useRouter } from 'vue-router';
+import { computed, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import ProjectCard from '@/components/ProjectCard.vue';
 import { projects } from '@/assets/data/projects.js';
 
 const router = useRouter();
-const goToDetail = (id) => router.push(`/ProjectsViewDetail/${id}`);
+const route = useRoute();
+const activeCategory = ref(
+  typeof route.query.category === 'string' && ['all', 'web', 'graphic'].includes(route.query.category)
+    ? route.query.category
+    : 'all'
+);
+
+watch(activeCategory, (value) => {
+  router.replace({
+    path: '/ProjectsView',
+    query: value !== 'all' ? { category: value } : {},
+  });
+});
+
+const categories = [
+  { value: 'all', label: '全部' },
+  { value: 'web', label: '網頁設計' },
+  { value: 'graphic', label: '平面設計' },
+];
+
+const filteredProjects = computed(() => {
+  if (activeCategory.value === 'all') return projects;
+  return projects.filter((project) => project.category === activeCategory.value);
+});
+
+const goToDetail = (id) => {
+  router.push({
+    path: `/ProjectsViewDetail/${id}`,
+    query: { category: activeCategory.value },
+  });
+};
 </script>
 
 <template>
@@ -12,15 +43,32 @@ const goToDetail = (id) => router.push(`/ProjectsViewDetail/${id}`);
     <div class="page-header">
       <span class="section-label">Works</span>
     </div>
-    <div class="grid">
-      <ProjectCard 
-      v-for="project in projects" 
-      :key="project.id" 
-      :id="project.id" 
-      :img="project.img"
-      :title="project.title"
-      @view-detail="goToDetail" />
+
+    <div class="filter-bar">
+      <button
+        v-for="item in categories"
+        :key="item.value"
+        class="filter-btn"
+        :class="{ active: activeCategory === item.value }"
+        @click="activeCategory = item.value"
+      >
+        {{ item.label }}
+      </button>
     </div>
+
+    <div v-if="filteredProjects.length" :class="['grid', { graphic: activeCategory === 'graphic' }]">
+      <ProjectCard
+        v-for="project in filteredProjects"
+        :key="project.id"
+        :id="project.id"
+        :img="project.img"
+        :title="project.title"
+        :category="project.category"
+        :compactGraphic="project.category === 'graphic' && activeCategory === 'all'"
+        @view-detail="goToDetail"
+      />
+    </div>
+    <div v-else class="empty-state">目前沒有這個分類的作品。</div>
   </div>
 </template>
 
@@ -32,9 +80,8 @@ const goToDetail = (id) => router.push(`/ProjectsViewDetail/${id}`);
 }
 
 .page-header {
-  margin-bottom: 48px;
-  /* 💡 讓標題區塊與下方的置中卡片對齊 */
-  max-width: 830px; 
+  margin-bottom: 24px;
+  max-width: 830px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -59,36 +106,74 @@ const goToDetail = (id) => router.push(`/ProjectsViewDetail/${id}`);
   background: #F5C400;
 }
 
-h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 300;
-  letter-spacing: 0.08em;
-  color: #ffffff;
+.filter-bar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
 }
 
-/* 💡 核心修改：兩張一排、置中、中間間距 30px */
+.filter-btn {
+  border: 1px solid rgba(245, 196, 0, 0.4);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: #F5C400;
+  color: #111;
+  border-color: #F5C400;
+}
+
 .grid {
   display: grid;
-  /* 💡 一排固定兩欄，每張卡片最大寬度限制在 400px（可依據實測畫面微調） */
-  grid-template-columns: repeat(2, minmax(0, 400px)); 
-  /* 💡 關鍵：左右間距固定 30px，上下間距設定為 40px */
-  gap: 40px 30px; 
-  /* 💡 關鍵：讓整個兩欄網格在畫面上水平置中 */
-  justify-content: center; 
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px 30px;
+  justify-content: center;
 }
 
-/* 💡 RWD 響應式斷點設定 */
+.grid.graphic {
+  grid-template-columns: repeat(3, minmax(212px, 1fr));
+  gap: 30px;
+}
 
-/* 當螢幕小於平板/手機尺寸時（768px 以下）：自動切換成一排一張置中 */
+@media (max-width: 800px) {
+  .grid.graphic {
+    grid-template-columns: repeat(2, minmax(212px, 1fr));
+  }
+}
+
+@media (max-width: 430px) {
+  .grid.graphic {
+    grid-template-columns: 1fr;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 24px 0;
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: 0.08em;
+}
+
 @media (max-width: 768px) {
   .grid {
-    /* 💡 改為單欄置中，限制最大寬度避免在手機上拉得太長變形 */
-    grid-template-columns: minmax(0, 450px); 
+    grid-template-columns: minmax(0, 450px);
     gap: 32px;
   }
+
   .page {
-    padding: 48px 24px; /* 稍微縮減手機版的左右留白 */
+    padding: 48px 24px;
   }
 }
 </style>
