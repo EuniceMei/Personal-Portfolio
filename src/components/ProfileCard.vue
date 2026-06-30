@@ -38,7 +38,6 @@ import profile from '@/assets/img/profile.jpg';
   justify-content: center;
   align-items: flex-start;
   padding: 80px 32px;
-  min-height: 100vh;
 }
 
 .profile-card {
